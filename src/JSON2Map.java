@@ -4,6 +4,8 @@ public class JSON2Map {
 
     public static void main(String[] args) {
         /**
+         * The json string：
+         *
          * {
          *     "name":"Lee",
          *     "family":{
@@ -24,7 +26,28 @@ public class JSON2Map {
          * */
 
         String jsonString = "{\"name\":\"Lee\",\"family\":{\"father\":\"Old Lee\",\"mother\":\"Mrs Lee\",\"siblings\":[\"Lee One\",\"Lee two\"]},\"age\":10,\"scores\":[110,22,88.8]}";
+
+//        String formattedJSON = "{\n" +
+//                "              \"name\":\"Lee\",\n" +
+//                "              \"family\":{\n" +
+//                "                  \"father\":\"Old Lee\",\n" +
+//                "                  \"mother\":\"Mrs Lee\",\n" +
+//                "                  \"siblings\":[\n" +
+//                "                      \"Lee One\",\n" +
+//                "                      \"Lee two\"\n" +
+//                "                  ]\n" +
+//                "              },\n" +
+//                "              \"age\":10,\n" +
+//                "              \"scores\":[\n" +
+//                "                  110,\n" +
+//                "                  22,\n" +
+//                "                  88.8\n" +
+//                "              ]\n" +
+//                "          }   ";
+
         json2Map(jsonString);
+        //json2Map(formattedJSON);
+
     }
 
 
@@ -48,7 +71,7 @@ public class JSON2Map {
                     isListStack.push(false);
                     break;
                 case ':':
-                    keyStack.push(builder.toString());
+                    keyStack.push(builder.toString().trim());
                     builder = new StringBuilder();
                     break;
                 case '[':
@@ -58,7 +81,7 @@ public class JSON2Map {
                 case ',':
                     boolean isList = isListStack.peek();
                     if (builder.length() > 0) {  //before this ',', the value is a String
-                        value = parseValue(builder.toString());
+                        value = parseValue(builder.toString().trim());
                     }
                     builder = new StringBuilder();
                     if (!isList) {
@@ -99,6 +122,8 @@ public class JSON2Map {
      */
     static private Object parseValue(String value) {
         Object ret;
+        value = value.trim();
+        if (value.isEmpty()) return "";
         if (value.contains("\"")) {
             ret = value;
         } else {    // is number
