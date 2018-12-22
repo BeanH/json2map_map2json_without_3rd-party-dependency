@@ -2,7 +2,7 @@
 This project shows how to convert a JSON string into a Map and vice versa without third party dependency like GSON, fastjson.
 
 ## Algorithm
-### json2map
+### json2map - JSON2Map.java
 The algorithm of converting a JSON string to a map, is similar to converting a string into a binary tree, like "4(2(3)(1))(6(5))".
 We could also use Stack to deal with this problem. The difference is the former is much more complex than the latter, because we need to consider lot of cases. However, it would not be that much difficult if we go through the cases one by one.
 
@@ -31,4 +31,72 @@ Here are the cases we need to consider one by one:
 
 otherwise: plain chars, just append to the StringBuilder
 
+Example:
+```
+Convert the below JSON string into a Map:
+    Plain string look:   {"name":"Lee","family":{"father":"Old Lee","mother":"Mrs Lee","siblings":["Lee One","Lee two"]},"age":10,"scores":[110,22,88.8]}
+    JSON tree look:
+            {
+              "name":"Lee",
+              "family":{
+                  "father":"Old Lee",
+                  "mother":"Mrs Lee",
+                  "siblings":[
+                      "Lee One",
+                      "Lee two"
+                  ]
+              },
+              "age":10,
+              "scores":[
+                  110,
+                  22,
+                  88.8
+              ]
+          }        
+  
+```
 
+### json2map - Map2JSON.java
+
+Traverse the Map with a StringBuffer appending the serialisation of each map entry. 
+For each entry, verify its class type and deal and serialize it according to its data type.
+For Map and List type, we need to recurse to serialize.
+
+Example:
+
+```
+A Map:
+
+        Map map = new HashMap();
+        map.put("name", "Lee");
+        map.put("age", Arrays.asList(new Integer[]{33, 34, 35}));
+        Map family = new HashMap();
+        family.put("father", "Dad");
+        family.put("mother", "Mum");
+        family.put("siblings", Arrays.asList(new String[]{"Brother", "Sister"}));
+        map.put("family", family);
+        map.put("birthday", new Date(1992, 12, 12));
+        System.out.println(toJson(map));
+        
+To:
+        {
+            "birthday":"Thu Jan 12 00:00:00 PST 3893",
+            "name":"Lee",
+            "family":{
+                "mother":"Mum",
+                "siblings":[
+                    "Brother",
+                    "Sister"
+                ],
+                "father":"Dad"
+            },
+            "age":[
+                33,
+                34,
+                35
+            ]
+        }
+       
+```
+
+* Currently, the code could just convert to plain String.(It is easy to convert into the better looking String just add some "\n");
