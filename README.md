@@ -1,20 +1,19 @@
+## json2map_map2json_without_3rd-party-dependency
 This project shows how to convert a JSON string into a Map and vice versa without third party dependency like GSON, fastjson.
-### Algorithm
 
+## Algorithm
+### json2map
 The algorithm of converting a JSON string to a map, is similar to converting a string into a binary tree, like "4(2(3)(1))(6(5))".
-We could also use Stack to deal with this problem. The difference is the former is much more complex than the latter, because we need to consider lot of cases.
-However, it would not be that much difficult if we go through the cases one by one.
+We could also use Stack to deal with this problem. The difference is the former is much more complex than the latter, because we need to consider lot of cases. However, it would not be that much difficult if we go through the cases one by one.
 
 As we all know, a JSON string would contain Map(Object) with "{}", List with "[]", plain String with "" and Integer/decimal numbers.
-
-We have 4 Stacks to hold the values:
+We could have 4 Stacks to hold the values:
 * mapStack : to hold the Maps
 * listStack : to hold the Lists
 * isListStack: to hold whether we are currently building a List
 * keyStack: to hold the Keys
 
 Here are the cases we need to consider one by one:
-
 '{' : this means a start of a Map, push a new Map into the mapStack
 
 ':' : means we have just finished a key, and starting to meet a value, push the key into keyStack
